@@ -13,7 +13,9 @@ export const rpcUrls: ConfigPerNetwork<RpcUrl> = {
   goerli: ALCHEMY_KEY
     ? `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_KEY}`
     : `https://goerli.infura.io/v3/${INFURA_KEY}`,
+
   hardhat: 'http://localhost:8545',
+  mumbai: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_KEY}`,
   localhost: 'http://localhost:8545',
 };
 
@@ -22,6 +24,7 @@ export const gasPrices: ConfigPerNetwork<number | undefined> = {
   goerli: undefined,
   hardhat: 1 * GWEI,
   localhost: 70 * GWEI,
+  mumbai: undefined,
 };
 
 export const chainIds: ConfigPerNetwork<number> = {
@@ -29,6 +32,7 @@ export const chainIds: ConfigPerNetwork<number> = {
   goerli: 5,
   hardhat: 31337,
   localhost: 31337,
+  mumbai: 80001,
 };
 
 export const mnemonics: ConfigPerNetwork<string | undefined> = {
@@ -36,6 +40,7 @@ export const mnemonics: ConfigPerNetwork<string | undefined> = {
   goerli: MNEMONIC_DEV,
   hardhat: MNEMONIC_DEV,
   localhost: MNEMONIC_DEV,
+  mumbai: MNEMONIC_DEV,
 };
 
 export const gases: ConfigPerNetwork<number | undefined> = {
@@ -43,6 +48,7 @@ export const gases: ConfigPerNetwork<number | undefined> = {
   goerli: 1_250_000,
   hardhat: undefined,
   localhost: 1_250_000,
+  mumbai: undefined,
 };
 
 export const timeouts: ConfigPerNetwork<number | undefined> = {
@@ -50,6 +56,7 @@ export const timeouts: ConfigPerNetwork<number | undefined> = {
   goerli: 999999,
   hardhat: undefined,
   localhost: 999999,
+  mumbai: undefined,
 };
 
 export const blockGasLimits: ConfigPerNetwork<number | undefined> = {
@@ -57,6 +64,7 @@ export const blockGasLimits: ConfigPerNetwork<number | undefined> = {
   goerli: undefined,
   hardhat: 300 * 10 ** 6,
   localhost: undefined,
+  mumbai: undefined,
 };
 
 export const initialBasesFeePerGas: ConfigPerNetwork<number | undefined> = {
@@ -64,6 +72,7 @@ export const initialBasesFeePerGas: ConfigPerNetwork<number | undefined> = {
   goerli: undefined,
   hardhat: 0,
   localhost: undefined,
+  mumbai: undefined,
 };
 
 export const getBaseNetworkConfig = (network: Network): NetworkUserConfig => ({
@@ -79,7 +88,7 @@ export const getBaseNetworkConfig = (network: Network): NetworkUserConfig => ({
   timeout: timeouts[network],
   initialBaseFeePerGas: initialBasesFeePerGas[network],
 });
-
+console.log('ALCHEMY_KEY', ALCHEMY_KEY);
 export const getNetworkConfig = (network: Network): NetworkUserConfig => ({
   ...getBaseNetworkConfig(network),
   url: rpcUrls[network],
@@ -97,6 +106,7 @@ export const getForkNetworkConfig = (
   saveDeployments: true,
   forking: {
     url: rpcUrls[network],
+    blockNumber: 8975098,
   },
 });
 

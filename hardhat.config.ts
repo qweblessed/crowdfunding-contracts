@@ -18,7 +18,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: '0.8.9',
+        version: '0.8.18',
         settings: {
           optimizer: {
             enabled: true,
@@ -37,7 +37,10 @@ const config: HardhatUserConfig = {
     hardhat: FORKING_NETWORK
       ? getForkNetworkConfig(FORKING_NETWORK)
       : getHardhatNetworkConfig(),
-    localhost: getNetworkConfig('localhost'),
+    localhost: FORKING_NETWORK
+      ? getForkNetworkConfig(FORKING_NETWORK)
+      : getHardhatNetworkConfig(),
+    mumbai: getNetworkConfig('mumbai'),
   },
   gasReporter: {
     enabled: REPORT_GAS,
@@ -56,6 +59,11 @@ const config: HardhatUserConfig = {
     path: './docgen',
     clear: true,
     runOnCompile: false,
+  },
+  verify: {
+    etherscan: {
+      apiKey: ETHERSCAN_API_KEY,
+    },
   },
   external: FORKING_NETWORK
     ? {
