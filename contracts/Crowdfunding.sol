@@ -70,7 +70,8 @@ contract Crowdfunding is Ownable {
     function fundInProject(uint256 id) external payable {
         Project storage project = projects[id];
         uint256 remaingAmount = _chargeFees(msg.value);
-      
+
+        require(msg.value >= minInvestAmount, "Crowdfunding: !minInvestAmount");
         require(
             !_isRaised(id) && !_isEnded(id),
             "Crowdfunding: !raise conditions"
@@ -81,7 +82,7 @@ contract Crowdfunding is Ownable {
 
         payable(address(this)).transfer(msg.value);
 
-        emit Funded(id, msg.value, msg.sender);
+        emit Funded(id, remaingAmount, msg.sender);
     }
 
     function refundFromProject(uint256 id) external payable {
@@ -100,7 +101,7 @@ contract Crowdfunding is Ownable {
         Project storage project = projects[id];
 
         require(
-            !_isRaised(id) && _isEnded(id) && _isFounder(id),
+            _isRaised(id) && _isFounder(id),
             "Crowdfunding: !raise withdraw conditions"
         );
 
@@ -129,17 +130,26 @@ contract Crowdfunding is Ownable {
         return amount - chargedAmount;
     }
 
-    function _isRaised(uint256 id) private returns (bool) {
+    function _isRaised(uint256 id) private view returns (bool) {
         return projects[id].raisedAmount > projects[id].goal;
     }
 
-    function _isEnded(uint256 id) private returns (bool) {
-
+    function _isEnded(uint256 id) private view returns (bool) {
         return block.timestamp > projects[id].endDateTs;
     }
 
-    function _isFounder(uint256 id) private returns (bool) {
+    function _isFounder(uint256 id) private view returns (bool) {
         return msg.sender == projects[id].founder;
+    }
+
+    function getAllProjects() external view returns (Project[] memory) {
+        Project[] memory allProjects = new Project[](projectId);
+
+        for (uint256 i = 0; i < projectId; i++) {
+            allProjects[i] = projects[i];
+        }
+
+        return allProjects;
     }
 
     receive() external payable {}

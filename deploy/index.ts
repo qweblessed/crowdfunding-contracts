@@ -2,14 +2,15 @@
 import { ethers } from 'hardhat';
 
 async function main() {
-  const VestingCotractFactory = await ethers.getContractFactory(
-    'MerkleVesting',
+  const CrowdfundingContractFactory = await ethers.getContractFactory(
+    'Crowdfunding',
   );
-  const VestingCotract = await VestingCotractFactory.deploy(
-    process.env.VESTED_TOKEN,
+  const CrowdfundingContract = await CrowdfundingContractFactory.deploy(
+    ethers.utils.parseEther('0.1'),
+    1,
   );
-  await VestingCotract.deployed();
-  console.log('VestingCotract deployed to', VestingCotract.address);
+  await CrowdfundingContract.deployed();
+  console.log('CrowdfundingContract deployed to', CrowdfundingContract.address);
 }
 
 main().catch((error) => {
