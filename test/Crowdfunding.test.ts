@@ -23,12 +23,12 @@ describe('Crowdfunding', function () {
 
   it('Should be able to create a new project', async function () {
     const currentTs = (await provider.getBlock('latest')).timestamp;
-
+    console.log(ethers.utils.parseEther('0.1'));
     await expect(
       CrowdfundingContract.connect(investor).createProject(
         ethers.utils.formatBytes32String('TEST Name'),
-        ethers.utils.formatBytes32String('TEST Description'),
-        ethers.utils.formatBytes32String('TEST URL'),
+        'TEST Description',
+        'TEST URL',
         ethers.utils.parseEther('10'),
         36000,
       ),
@@ -37,8 +37,8 @@ describe('Crowdfunding', function () {
       .withArgs([
         0,
         ethers.utils.formatBytes32String('TEST Name'),
-        ethers.utils.formatBytes32String('TEST Description'),
-        ethers.utils.formatBytes32String('TEST URL'),
+        'TEST Description',
+        'TEST URL',
         ethers.utils.parseEther('10'),
         0,
         currentTs + 36001,
@@ -50,8 +50,8 @@ describe('Crowdfunding', function () {
   it('Should be able to fund a project', async function () {
     await CrowdfundingContract.connect(investor).createProject(
       ethers.utils.formatBytes32String('TEST Name'),
-      ethers.utils.formatBytes32String('TEST Description'),
-      ethers.utils.formatBytes32String('TEST URL'),
+      'TEST Description',
+      'TEST URL',
       ethers.utils.parseEther('10'),
       36000,
     );
@@ -76,8 +76,8 @@ describe('Crowdfunding', function () {
   it('Should allow refunding from a project after it ends', async function () {
     await CrowdfundingContract.connect(owner).createProject(
       ethers.utils.formatBytes32String('TEST Name'),
-      ethers.utils.formatBytes32String('TEST Description'),
-      ethers.utils.formatBytes32String('TEST URL'),
+      'TEST Description',
+      'TEST URL',
       ethers.utils.parseEther('10'),
       36000,
     );
@@ -109,8 +109,8 @@ describe('Crowdfunding', function () {
   it('Should allow the contract owner to withdraw earned fees', async function () {
     await CrowdfundingContract.connect(owner).createProject(
       ethers.utils.formatBytes32String('TEST Name'),
-      ethers.utils.formatBytes32String('TEST Description'),
-      ethers.utils.formatBytes32String('TEST URL'),
+      'TEST Description',
+      'TEST URL',
       ethers.utils.parseEther('10'),
       36000,
     );
@@ -133,8 +133,8 @@ describe('Crowdfunding', function () {
   it('Should allow to receive raised money project', async function () {
     await CrowdfundingContract.connect(owner).createProject(
       ethers.utils.formatBytes32String('TEST Name'),
-      ethers.utils.formatBytes32String('TEST Description'),
-      ethers.utils.formatBytes32String('TEST URL'),
+      'TEST Description',
+      'TEST URL',
       ethers.utils.parseEther('10'),
       36000,
     );

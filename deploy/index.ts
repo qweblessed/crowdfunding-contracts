@@ -8,7 +8,8 @@ async function main() {
   const CrowdfundingContract = await CrowdfundingContractFactory.deploy(
     ethers.utils.parseEther('0.1'),
     1,
-  );
+  )
+  
   await CrowdfundingContract.deployed();
   console.log('CrowdfundingContract deployed to', CrowdfundingContract.address);
 }

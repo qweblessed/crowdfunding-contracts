@@ -10,8 +10,8 @@ contract Crowdfunding is Ownable {
     struct Project {
         uint256 id;
         bytes32 name;
-        bytes32 description;
-        bytes32 url;
+        string description;
+        string url;
         uint256 goal;
         uint256 raisedAmount;
         uint256 endDateTs;
@@ -44,8 +44,8 @@ contract Crowdfunding is Ownable {
 
     function createProject(
         bytes32 name,
-        bytes32 description,
-        bytes32 url,
+        string memory description,
+        string memory url,
         uint256 goal,
         uint256 duration
     ) external {
